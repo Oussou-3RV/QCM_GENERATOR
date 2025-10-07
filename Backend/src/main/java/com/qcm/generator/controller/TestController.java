@@ -4,13 +4,11 @@ import com.qcm.generator.model.TestRequest;
 import com.qcm.generator.model.TestResponse;
 import com.qcm.generator.model.TestResponse;
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")  //Toutes les routes de ce controller commencent par /api
+@CrossOrigin(origins = "http://localhost:5173") //Accepter les requêtes venant de cet url
 public class TestController {
 
     //Route POST sur /api/test
