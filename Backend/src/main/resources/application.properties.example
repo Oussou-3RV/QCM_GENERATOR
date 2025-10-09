@@ -1,0 +1,12 @@
+# Server configuration
+server.port=8080
+
+# Application name
+spring.application.name=qcm-generator
+
+# Logging
+logging.level.com.qcm.generator=INFO
+logging.level.org.springframework.web=INFO
+
+# OpenAI Configuration (Remplace par ta clé API)
+openai.api.key=VOTRE_CLE_API_OPENAI_ICI
