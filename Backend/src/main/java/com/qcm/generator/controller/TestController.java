@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")  //Toutes les routes de ce controller commencent par /api
-@CrossOrigin(origins = "http://localhost:5173") //Accepter les requêtes venant de cet url
+@CrossOrigin(origins = {"http://localhost:5173", "https://*.vercel.app"}) //Accepter les requêtes venant de cet url
 public class TestController {
 
     //Route POST sur /api/test
