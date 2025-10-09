@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: qcm-generator-backend
+    runtime: java
+    buildCommand: mvn clean install -DskipTests
+    startCommand: java -Dserver.port=$PORT -jar target/*.jar
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
