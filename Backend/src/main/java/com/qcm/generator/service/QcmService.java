@@ -1,22 +1,68 @@
 package com.qcm.generator.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qcm.generator.model.Question;
 import com.qcm.generator.model.QcmResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class QcmService {
 
+    @Autowired
+    private OpenAIService openAIService;
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     public QcmResponse generateQcm(String courseText) {
+        try {
+            // Appeler OpenAI pour générer les questions
+            String aiResponse = openAIService.generateQcmWithAI(courseText);
+
+            // Parser la réponse JSON
+            JsonNode rootNode = objectMapper.readTree(aiResponse);
+            JsonNode questionsNode = rootNode.get("questions");
+
+            List<Question> questions = new ArrayList<>();
+
+            // Convertir chaque question JSON en objet Question
+            for (JsonNode questionNode : questionsNode) {
+                int id = questionNode.get("id").asInt();
+                String questionText = questionNode.get("question").asText();
+                int correctAnswer = questionNode.get("correctAnswer").asInt();
+
+                // Récupérer les options
+                List<String> options = new ArrayList<>();
+                JsonNode optionsNode = questionNode.get("options");
+                for (JsonNode optionNode : optionsNode) {
+                    options.add(optionNode.asText());
+                }
+
+                // Créer l'objet Question
+                Question question = new Question(id, questionText, options, correctAnswer);
+                questions.add(question);
+            }
+
+            return new QcmResponse(questions);
+
+        } catch (Exception e) {
+            // En cas d'erreur avec l'IA, utiliser l'ancien système
+            System.err.println("Erreur OpenAI : " + e.getMessage());
+            return generateQcmFallback(courseText);
+        }
+    }
+
+    // Méthode de secours (l'ancien système)
+    private QcmResponse generateQcmFallback(String courseText) {
         List<Question> questions = new ArrayList<>();
 
-        // Diviser le texte en phrases
         String[] sentences = courseText.split("\\.");
-
-        // Filtrer les phrases valides (au moins 5 mots)
         List<String> validSentences = new ArrayList<>();
+
         for (String sentence : sentences) {
             sentence = sentence.trim();
             String[] words = sentence.split("\\s+");
@@ -25,76 +71,18 @@ public class QcmService {
             }
         }
 
-        // Générer 3 questions maximum (ou moins si pas assez de phrases)
         int numQuestions = Math.min(3, validSentences.size());
 
         for (int i = 0; i < numQuestions; i++) {
-            String sentence = validSentences.get(i);
-            Question question = generateQuestionFromSentence(sentence, i + 1);
+            Question question = new Question(
+                    i + 1,
+                    "Question générée automatiquement (IA indisponible)",
+                    List.of("Option A", "Option B", "Option C", "Option D"),
+                    0
+            );
             questions.add(question);
         }
 
         return new QcmResponse(questions);
-    }
-
-    private Question generateQuestionFromSentence(String sentence, int questionId) {
-        // Diviser la phrase en mots
-        String[] words = sentence.split("\\s+");
-
-        // Choisir un mot au hasard (éviter les petits mots)
-        Random random = new Random();
-        String targetWord = "";
-        int attempts = 0;
-
-        while (attempts < 10) {
-            int randomIndex = random.nextInt(words.length);
-            String word = words[randomIndex].replaceAll("[^a-zA-Zàâäéèêëïîôùûüÿæœç]", "");
-
-            if (word.length() > 4) {
-                targetWord = word;
-                break;
-            }
-            attempts++;
-        }
-
-        // Si aucun mot trouvé, prendre le premier mot long
-        if (targetWord.isEmpty()) {
-            for (String word : words) {
-                word = word.replaceAll("[^a-zA-Zàâäéèêëïîôùûüÿæœç]", "");
-                if (word.length() > 4) {
-                    targetWord = word;
-                    break;
-                }
-            }
-        }
-
-        // Créer la question en remplaçant le mot par "______"
-        String questionText = sentence.replace(targetWord, "______");
-
-        // Créer les options
-        List<String> options = new ArrayList<>();
-        options.add(targetWord); // Bonne réponse
-        options.add(targetWord + "s");
-        options.add("Aucune réponse");
-        options.add(generateRandomWord());
-
-        // Mélanger les options
-        Collections.shuffle(options);
-
-        // Trouver l'index de la bonne réponse
-        int correctIndex = options.indexOf(targetWord);
-
-        return new Question(
-                questionId,
-                "Complétez la phrase : " + questionText,
-                options,
-                correctIndex
-        );
-    }
-
-    private String generateRandomWord() {
-        String[] randomWords = {"chose", "élément", "objet", "concept", "idée", "terme"};
-        Random random = new Random();
-        return randomWords[random.nextInt(randomWords.length)];
     }
 }
