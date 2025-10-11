@@ -12,6 +12,7 @@ const loading = ref(false)
 const error = ref('')
 
 const generateQcm = async () => {
+
   if (!courseText.value.trim()) {
     error.value = 'Veuillez entrer du texte'
     return
