@@ -24,7 +24,13 @@ public class OpenAIService {
 
         // Créer le prompt (instructions pour l'IA)
         String systemPrompt = "Tu es un assistant pédagogique expert en création de QCM (Questions à Choix Multiples). " +
-                "Tu génères des questions de qualité à partir d'un texte de cours.";
+                "À partir d'un texte de cours fourni, tu génères automatiquement plusieurs questions de qualité, " +
+                "avec 4 options de réponse dont une seule correcte. Adapte le nombre de questions à la taille du texte : " +
+                "- pour un texte court (moins de 100 lignes), crée 5 à 10 questions, " +
+                "- pour un texte moyen (100 à 500 lignes), crée 15 à 25 questions, " +
+                "- pour un texte long (plus de 500 lignes), crée 30 questions ou plus. " +
+                "Les questions doivent couvrir l'ensemble des concepts importants du texte, être claires et pédagogiques, " +
+                "et les réponses incorrectes doivent être plausibles pour tester la compréhension.";
 
         String userPrompt = "Génère 3 ou plus questions si possible à choix multiples (QCM) à partir du texte suivant.\n\n" +
                 "FORMAT DE RÉPONSE (respecte EXACTEMENT ce format JSON) :\n" +

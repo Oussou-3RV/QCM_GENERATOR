@@ -18,10 +18,75 @@ public class QcmService {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+//    public QcmResponse generateQcm(String courseText) {
+//        try {
+//            // Appeler OpenAI pour générer les questions
+//            String aiResponse = openAIService.generateQcmWithAI(courseText);
+//
+//            // Parser la réponse JSON
+//            JsonNode rootNode = objectMapper.readTree(aiResponse);
+//            JsonNode questionsNode = rootNode.get("questions");
+//
+//            List<Question> questions = new ArrayList<>();
+//
+//            // Convertir chaque question JSON en objet Question
+//            for (JsonNode questionNode : questionsNode) {
+//                int id = questionNode.get("id").asInt();
+//                String questionText = questionNode.get("question").asText();
+//                int correctAnswer = questionNode.get("correctAnswer").asInt();
+//
+//                // Récupérer les options
+//                List<String> options = new ArrayList<>();
+//                JsonNode optionsNode = questionNode.get("options");
+//                for (JsonNode optionNode : optionsNode) {
+//                    options.add(optionNode.asText());
+//                }
+//
+//                // Créer l'objet Question
+//                Question question = new Question(id, questionText, options, correctAnswer);
+//                questions.add(question);
+//            }
+//
+//            return new QcmResponse(questions);
+//
+//        } catch (Exception e) {
+//            // En cas d'erreur avec l'IA, utiliser l'ancien système
+//            System.err.println("Erreur OpenAI : " + e.getMessage());
+//            return generateQcmFallback(courseText);
+//        }
+//    }
+
     public QcmResponse generateQcm(String courseText) {
         try {
             // Appeler OpenAI pour générer les questions
             String aiResponse = openAIService.generateQcmWithAI(courseText);
+
+            // ========================================
+            // NETTOYAGE DE LA RÉPONSE CAR
+            // L'IA peut renvoyer du texte avec des balises markdown
+            // ========================================
+
+            // Supprimer les balises markdown si présentes
+            aiResponse = aiResponse.trim();
+
+            // Retirer ```json au début
+            if (aiResponse.startsWith("```json")) {
+                aiResponse = aiResponse.substring(7); // Enlever "```json"
+            } else if (aiResponse.startsWith("```")) {
+                aiResponse = aiResponse.substring(3); // Enlever "```"
+            }
+
+            // Retirer ``` à la fin
+            if (aiResponse.endsWith("```")) {
+                aiResponse = aiResponse.substring(0, aiResponse.length() - 3);
+            }
+
+            // Enlever les espaces et sauts de ligne inutiles
+            aiResponse = aiResponse.trim();
+
+            // ========================================
+            // PARSING JSON
+            // ========================================
 
             // Parser la réponse JSON
             JsonNode rootNode = objectMapper.readTree(aiResponse);
@@ -50,8 +115,12 @@ public class QcmService {
             return new QcmResponse(questions);
 
         } catch (Exception e) {
+            // En cas d'erreur, afficher plus de détails
+            System.err.println("Erreur complète : " + e.getClass().getName());
+            System.err.println("Message : " + e.getMessage());
+            e.printStackTrace();
+
             // En cas d'erreur avec l'IA, utiliser l'ancien système
-            System.err.println("Erreur OpenAI : " + e.getMessage());
             return generateQcmFallback(courseText);
         }
     }
