@@ -9,7 +9,7 @@ backend/mvnw.cmd
 backend/.idea/
 backend/*.iml
 frontend/.env
-backend/src/main/resources/application.properties
+
 
 # Frontend (Node.js) - on ajoutera plus tard
 frontend/node_modules/
