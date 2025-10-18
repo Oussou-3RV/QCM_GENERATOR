@@ -18,44 +18,6 @@ public class QcmService {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-//    public QcmResponse generateQcm(String courseText) {
-//        try {
-//            // Appeler OpenAI pour générer les questions
-//            String aiResponse = openAIService.generateQcmWithAI(courseText);
-//
-//            // Parser la réponse JSON
-//            JsonNode rootNode = objectMapper.readTree(aiResponse);
-//            JsonNode questionsNode = rootNode.get("questions");
-//
-//            List<Question> questions = new ArrayList<>();
-//
-//            // Convertir chaque question JSON en objet Question
-//            for (JsonNode questionNode : questionsNode) {
-//                int id = questionNode.get("id").asInt();
-//                String questionText = questionNode.get("question").asText();
-//                int correctAnswer = questionNode.get("correctAnswer").asInt();
-//
-//                // Récupérer les options
-//                List<String> options = new ArrayList<>();
-//                JsonNode optionsNode = questionNode.get("options");
-//                for (JsonNode optionNode : optionsNode) {
-//                    options.add(optionNode.asText());
-//                }
-//
-//                // Créer l'objet Question
-//                Question question = new Question(id, questionText, options, correctAnswer);
-//                questions.add(question);
-//            }
-//
-//            return new QcmResponse(questions);
-//
-//        } catch (Exception e) {
-//            // En cas d'erreur avec l'IA, utiliser l'ancien système
-//            System.err.println("Erreur OpenAI : " + e.getMessage());
-//            return generateQcmFallback(courseText);
-//        }
-//    }
-
     public QcmResponse generateQcm(String courseText) {
         try {
             // Appeler OpenAI pour générer les questions
