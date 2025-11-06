@@ -70,8 +70,18 @@ const generateQcmFromText = async () => {
     showResults.value = false
 
   } catch (err) {
-    // En cas d'erreur, afficher un message
-    error.value = 'Erreur : Vérifiez que le backend est lancé'
+   // Gestion d'erreur améliorée
+   if (err.response && err.response.status === 503) {
+      // IA indisponible
+      error.value = '🤖 ' + (err.response.data.message || 
+        "L'intelligence artificielle est temporairement indisponible. Veuillez réessayer dans quelques instants.")
+    } else if (err.response && err.response.data && err.response.data.message) {
+      // Autre erreur avec message du backend
+      error.value = '❌ ' + err.response.data.message
+    } else {
+      // Erreur de connexion
+      error.value = '⚠️ Impossible de contacter le serveur. Vérifiez votre connexion internet.'
+    }
     console.error(err)
   } finally {
     // Désactiver le loader dans tous les cas
@@ -121,8 +131,25 @@ const generateQcmFromPdf = async () => {
 
   } catch (err) {
     // En cas d'erreur (PDF illisible, etc.)
-    error.value = 'Erreur lors de la lecture du PDF. Vérifiez que le fichier contient du texte.'
+    // error.value = 'Erreur lors de la lecture du PDF. Vérifiez que le fichier contient du texte.'
+    // Gestion d'erreur améliorée
+    if (err.response && err.response.status === 503) {
+      // IA indisponible
+      error.value = '🤖 ' + (err.response.data.message || 
+        "L'intelligence artificielle est temporairement indisponible. Veuillez réessayer dans quelques instants.")
+    } else if (err.response && err.response.status === 400) {
+      // Erreur PDF
+      error.value = '📄 ' + (err.response.data.message || 
+        'Erreur lors de la lecture du PDF. Vérifiez que le fichier contient du texte.')
+    } else if (err.response && err.response.data && err.response.data.message) {
+      // Autre erreur avec message
+      error.value = '❌ ' + err.response.data.message
+    } else {
+      // Erreur de connexion
+      error.value = '⚠️ Impossible de contacter le serveur. Vérifiez votre connexion internet.'
+    }
     console.error(err)
+    
   } finally {
     // Désactiver le loader
     loading.value = false
@@ -599,7 +626,7 @@ const getMessage = () => {
       <div class="bg-white rounded-xl shadow-md p-6 max-w-md mx-auto">
         <p class="text-sm mb-2">Créé avec Vue.js 3 + Spring Boot 🚀</p>
         <p class="text-lg font-semibold text-indigo-600">
-          Auteur : Oussou 👨‍💻
+          Auteur : <a href="baldemarc225@gmail.com">Oussou 👨‍💻</a>
         </p>
       </div>
     </footer>

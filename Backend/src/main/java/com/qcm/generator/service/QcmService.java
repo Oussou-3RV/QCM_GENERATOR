@@ -77,43 +77,17 @@ public class QcmService {
             return new QcmResponse(questions);
 
         } catch (Exception e) {
-            // En cas d'erreur, afficher plus de détails
-            System.err.println("Erreur complète : " + e.getClass().getName());
+            // En cas d'erreur, Afficher les détails de l'erreur dans les logs
+
+            System.err.println("❌ Erreur lors de la génération du QCM avec l'IA");
+            System.err.println("Type d'erreur : " + e.getClass().getName());
             System.err.println("Message : " + e.getMessage());
             e.printStackTrace();
 
-            // En cas d'erreur avec l'IA, utiliser l'ancien système
-            return generateQcmFallback(courseText);
+            // ❌ NE PAS utiliser le fallback( mancienne methode qui générait les qcm)
+            // À la place, lancer une exception avec un message clair
+            throw new RuntimeException("L'intelligence artificielle est temporairement indisponible pour générer les questions. Veuillez réessayer plus tard ou contacter le propriétaire du site.");
         }
     }
 
-    // Méthode de secours (l'ancien système)
-    private QcmResponse generateQcmFallback(String courseText) {
-        List<Question> questions = new ArrayList<>();
-
-        String[] sentences = courseText.split("\\.");
-        List<String> validSentences = new ArrayList<>();
-
-        for (String sentence : sentences) {
-            sentence = sentence.trim();
-            String[] words = sentence.split("\\s+");
-            if (words.length >= 5) {
-                validSentences.add(sentence);
-            }
-        }
-
-        int numQuestions = Math.min(3, validSentences.size());
-
-        for (int i = 0; i < numQuestions; i++) {
-            Question question = new Question(
-                    i + 1,
-                    "Question générée automatiquement (IA indisponible)",
-                    List.of("Option A", "Option B", "Option C", "Option D"),
-                    0
-            );
-            questions.add(question);
-        }
-
-        return new QcmResponse(questions);
-    }
 }
