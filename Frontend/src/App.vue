@@ -1,56 +1,3 @@
-
-<template>
-  <!-- Conteneur principal avec fond dégradé -->
-  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4">
-    <div class="max-w-4xl mx-auto">
-      
-      <!-- ========================================
-           HEADER
-           ======================================== -->
-      <AppHeader />
-
-      <!-- ========================================
-           ÉTAPE 1 : SAISIE DU COURS
-           ======================================== -->
-      <CourseInput
-        v-if="currentStep === 'input'"
-        :loading="loading"
-        :error="error"
-        @generate-from-text="handleGenerateFromText"
-        @generate-from-pdf="handleGenerateFromPdf"
-      />
-
-      <!-- ========================================
-           ÉTAPE 2 : QUIZ
-           ======================================== -->
-      <QuizDisplay
-        v-if="currentStep === 'quiz'"
-        :questions="questions"
-        @submit="handleSubmitQuiz"
-      />
-
-      <!-- ========================================
-           ÉTAPE 3 : RÉSULTATS
-           ======================================== -->
-      <ScoreDisplay
-        v-if="currentStep === 'score'"
-        :score="score"
-        :total="questions.length"
-        :questions="questions"
-        :userAnswers="userAnswers"
-        @restart="handleRestart"
-      />
-
-    </div>
-
-    <!-- ========================================
-         FOOTER
-         ======================================== -->
-    <AppFooter />
-  </div>
-</template>
-
-
 <script setup>
 import { ref } from 'vue'
 import axios from 'axios'
@@ -63,12 +10,21 @@ import AppFooter from './components/AppFooter.vue'
 import CourseInput from './components/CourseInput.vue'
 import QuizDisplay from './components/QuizDisplay.vue'
 import ScoreDisplay from './components/ScoreDisplay.vue'
+import HistoryPage from './components/HistoryPage.vue'
+
+// ========================================
+// IMPORT DU SERVICE HISTORIQUE
+// ========================================
+import { saveToHistory } from './services/historyService'
 
 // ========================================
 // STATE GLOBAL DE L'APPLICATION
 // ========================================
 
-// Étape actuelle : 'input', 'quiz', ou 'score'
+// Page actuelle : 'home' ou 'history'
+const currentPage = ref('home')
+
+// Étape actuelle sur la page home : 'input', 'quiz', ou 'score'
 const currentStep = ref('input')
 
 // Questions générées par l'IA
@@ -85,6 +41,23 @@ const loading = ref(false)
 
 // Message d'erreur
 const error = ref('')
+
+// ========================================
+// FONCTIONS - Navigation
+// ========================================
+
+/**
+ * Naviguer vers une page
+ * @param {string} page - 'home' ou 'history'
+ */
+const navigateTo = (page) => {
+  currentPage.value = page
+  
+  // Si on retourne à home, réinitialiser à l'étape input
+  if (page === 'home' && currentStep.value === 'score') {
+    handleRestart()
+  }
+}
 
 // ========================================
 // FONCTIONS - Génération de QCM
@@ -191,10 +164,39 @@ const handleSubmitQuiz = (answers) => {
   
   score.value = correctCount
   currentStep.value = 'score'
+  
+  // ========================================
+  // SAUVEGARDER DANS L'HISTORIQUE
+  // ========================================
+  saveToHistory({
+    questions: questions.value,
+    userAnswers: answers,
+    score: correctCount
+  })
 }
 
 // ========================================
-// FONCTIONS - Navigation
+// FONCTIONS - Historique
+// ========================================
+
+/**
+ * Refaire un quiz depuis l'historique
+ * @param {Object} historyItem - Le QCM de l'historique
+ */
+const handleReplayQuiz = (historyItem) => {
+  // Charger les questions de l'historique
+  questions.value = historyItem.questions
+  
+  // Réinitialiser les réponses
+  userAnswers.value = new Array(historyItem.questions.length).fill(null)
+  
+  // Retourner à la page home sur l'étape quiz
+  currentPage.value = 'home'
+  currentStep.value = 'quiz'
+}
+
+// ========================================
+// FONCTIONS - Réinitialisation
 // ========================================
 
 /**
@@ -209,6 +211,91 @@ const handleRestart = () => {
 }
 </script>
 
+<template>
+  <!-- Conteneur principal avec fond dégradé -->
+  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4">
+    <div class="max-w-4xl mx-auto">
+      
+      <!-- ========================================
+           HEADER
+           ======================================== -->
+      <AppHeader />
+
+      <!-- ========================================
+           MENU DE NAVIGATION
+           ======================================== -->
+      <div class="flex gap-4 mb-8 bg-white rounded-xl shadow-md p-2">
+        <button
+          @click="navigateTo('home')"
+          :class="[
+            'flex-1 py-3 px-6 rounded-lg font-semibold transition-all',
+            currentPage === 'home'
+              ? 'bg-indigo-600 text-white shadow-md'
+              : 'text-gray-600 hover:bg-gray-100'
+          ]"
+        >
+          🏠 Accueil
+        </button>
+        <button
+          @click="navigateTo('history')"
+          :class="[
+            'flex-1 py-3 px-6 rounded-lg font-semibold transition-all',
+            currentPage === 'history'
+              ? 'bg-indigo-600 text-white shadow-md'
+              : 'text-gray-600 hover:bg-gray-100'
+          ]"
+        >
+          📚 Historique
+        </button>
+      </div>
+
+      <!-- ========================================
+           PAGE HOME (Génération et Quiz)
+           ======================================== -->
+      <div v-if="currentPage === 'home'">
+        <!-- Étape 1 : Saisie du cours -->
+        <CourseInput
+          v-if="currentStep === 'input'"
+          :loading="loading"
+          :error="error"
+          @generate-from-text="handleGenerateFromText"
+          @generate-from-pdf="handleGenerateFromPdf"
+        />
+
+        <!-- Étape 2 : Quiz -->
+        <QuizDisplay
+          v-if="currentStep === 'quiz'"
+          :questions="questions"
+          @submit="handleSubmitQuiz"
+        />
+
+        <!-- Étape 3 : Résultats -->
+        <ScoreDisplay
+          v-if="currentStep === 'score'"
+          :score="score"
+          :total="questions.length"
+          :questions="questions"
+          :userAnswers="userAnswers"
+          @restart="handleRestart"
+        />
+      </div>
+
+      <!-- ========================================
+           PAGE HISTORIQUE
+           ======================================== -->
+      <HistoryPage
+        v-if="currentPage === 'history'"
+        @replay-quiz="handleReplayQuiz"
+      />
+
+    </div>
+
+    <!-- ========================================
+         FOOTER
+         ======================================== -->
+    <AppFooter />
+  </div>
+</template>
 
 <style>
 /* Import de Tailwind CSS */
