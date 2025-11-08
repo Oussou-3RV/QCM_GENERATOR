@@ -15,7 +15,7 @@ public class QcmService {
 
     @Autowired
     private OpenAIService openAIService;
-
+    //librairie JSON pour lire ,ecrire,convertir json en object
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public QcmResponse generateQcm(String courseText) {
@@ -50,7 +50,7 @@ public class QcmService {
             // PARSING JSON
             // ========================================
 
-            // Parser la réponse JSON
+            // Parser la réponse JSON ou lire json sous forme d'arbre
             JsonNode rootNode = objectMapper.readTree(aiResponse);
             JsonNode questionsNode = rootNode.get("questions");
 
@@ -84,7 +84,7 @@ public class QcmService {
             System.err.println("Message : " + e.getMessage());
             e.printStackTrace();
 
-            // ❌ NE PAS utiliser le fallback( mancienne methode qui générait les qcm)
+            // ❌ NE PAS utiliser le fallback( ancienne methode qui générait les qcm)
             // À la place, lancer une exception avec un message clair
             throw new RuntimeException("L'intelligence artificielle est temporairement indisponible pour générer les questions. Veuillez réessayer plus tard ou contacter le propriétaire du site.");
         }
