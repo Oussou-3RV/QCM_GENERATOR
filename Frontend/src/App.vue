@@ -11,6 +11,7 @@ import CourseInput from './components/CourseInput.vue'
 import QuizDisplay from './components/QuizDisplay.vue'
 import ScoreDisplay from './components/ScoreDisplay.vue'
 import HistoryPage from './components/HistoryPage.vue'
+import ReviewsPage from './components/ReviewsPage.vue'
 
 // ========================================
 // IMPORT DU SERVICE HISTORIQUE
@@ -21,7 +22,7 @@ import { saveToHistory } from './services/historyService'
 // STATE GLOBAL DE L'APPLICATION
 // ========================================
 
-// Page actuelle : 'home' ou 'history'
+// Page actuelle : 'home', 'history', ou 'reviews'
 const currentPage = ref('home')
 
 // Étape actuelle sur la page home : 'input', 'quiz', ou 'score'
@@ -48,7 +49,7 @@ const error = ref('')
 
 /**
  * Naviguer vers une page
- * @param {string} page - 'home' ou 'history'
+ * @param {string} page - 'home', 'history', ou 'reviews'
  */
 const navigateTo = (page) => {
   currentPage.value = page
@@ -65,7 +66,6 @@ const navigateTo = (page) => {
 
 /**
  * Générer un QCM depuis du texte
- * @param {string} courseText - Le texte du cours
  */
 const handleGenerateFromText = async (courseText) => {
   loading.value = true
@@ -76,13 +76,11 @@ const handleGenerateFromText = async (courseText) => {
       courseText: courseText
     })
 
-    // Stocker les questions et passer à l'étape quiz
     questions.value = result.data.questions
     userAnswers.value = new Array(questions.value.length).fill(null)
     currentStep.value = 'quiz'
 
   } catch (err) {
-    // Gestion d'erreur
     if (err.response && err.response.status === 503) {
       error.value = '🤖 ' + (err.response.data.message || 
         "L'intelligence artificielle est temporairement indisponible. Veuillez réessayer dans quelques instants.")
@@ -99,7 +97,6 @@ const handleGenerateFromText = async (courseText) => {
 
 /**
  * Générer un QCM depuis un PDF
- * @param {File} pdfFile - Le fichier PDF
  */
 const handleGenerateFromPdf = async (pdfFile) => {
   loading.value = true
@@ -119,13 +116,11 @@ const handleGenerateFromPdf = async (pdfFile) => {
       }
     )
 
-    // Stocker les questions et passer à l'étape quiz
     questions.value = result.data.questions
     userAnswers.value = new Array(questions.value.length).fill(null)
     currentStep.value = 'quiz'
 
   } catch (err) {
-    // Gestion d'erreur
     if (err.response && err.response.status === 503) {
       error.value = '🤖 ' + (err.response.data.message || 
         "L'intelligence artificielle est temporairement indisponible. Veuillez réessayer dans quelques instants.")
@@ -149,12 +144,10 @@ const handleGenerateFromPdf = async (pdfFile) => {
 
 /**
  * Soumettre les réponses du quiz et calculer le score
- * @param {Array} answers - Tableau des réponses sélectionnées
  */
 const handleSubmitQuiz = (answers) => {
   userAnswers.value = answers
   
-  // Calculer le score
   let correctCount = 0
   questions.value.forEach((question, index) => {
     if (answers[index] === question.correctAnswer) {
@@ -165,9 +158,7 @@ const handleSubmitQuiz = (answers) => {
   score.value = correctCount
   currentStep.value = 'score'
   
-  // ========================================
-  // SAUVEGARDER DANS L'HISTORIQUE
-  // ========================================
+  // Sauvegarder dans l'historique
   saveToHistory({
     questions: questions.value,
     userAnswers: answers,
@@ -181,16 +172,10 @@ const handleSubmitQuiz = (answers) => {
 
 /**
  * Refaire un quiz depuis l'historique
- * @param {Object} historyItem - Le QCM de l'historique
  */
 const handleReplayQuiz = (historyItem) => {
-  // Charger les questions de l'historique
   questions.value = historyItem.questions
-  
-  // Réinitialiser les réponses
   userAnswers.value = new Array(historyItem.questions.length).fill(null)
-  
-  // Retourner à la page home sur l'étape quiz
   currentPage.value = 'home'
   currentStep.value = 'quiz'
 }
@@ -200,7 +185,7 @@ const handleReplayQuiz = (historyItem) => {
 // ========================================
 
 /**
- * Recommencer : retour à l'étape de saisie
+ * Recommencer
  */
 const handleRestart = () => {
   currentStep.value = 'input'
@@ -212,23 +197,18 @@ const handleRestart = () => {
 </script>
 
 <template>
-  <!-- Conteneur principal avec fond dégradé -->
   <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4">
     <div class="max-w-4xl mx-auto">
       
-      <!-- ========================================
-           HEADER
-           ======================================== -->
+      <!-- HEADER -->
       <AppHeader />
 
-      <!-- ========================================
-           MENU DE NAVIGATION
-           ======================================== -->
-      <div class="flex gap-4 mb-8 bg-white rounded-xl shadow-md p-2">
+      <!-- MENU DE NAVIGATION -->
+      <div class="flex gap-2 mb-8 bg-white rounded-xl shadow-md p-2">
         <button
           @click="navigateTo('home')"
           :class="[
-            'flex-1 py-3 px-6 rounded-lg font-semibold transition-all',
+            'flex-1 py-3 px-4 rounded-lg font-semibold transition-all text-sm md:text-base',
             currentPage === 'home'
               ? 'bg-indigo-600 text-white shadow-md'
               : 'text-gray-600 hover:bg-gray-100'
@@ -239,7 +219,7 @@ const handleRestart = () => {
         <button
           @click="navigateTo('history')"
           :class="[
-            'flex-1 py-3 px-6 rounded-lg font-semibold transition-all',
+            'flex-1 py-3 px-4 rounded-lg font-semibold transition-all text-sm md:text-base',
             currentPage === 'history'
               ? 'bg-indigo-600 text-white shadow-md'
               : 'text-gray-600 hover:bg-gray-100'
@@ -247,13 +227,21 @@ const handleRestart = () => {
         >
           📚 Historique
         </button>
+        <button
+          @click="navigateTo('reviews')"
+          :class="[
+            'flex-1 py-3 px-4 rounded-lg font-semibold transition-all text-sm md:text-base',
+            currentPage === 'reviews'
+              ? 'bg-indigo-600 text-white shadow-md'
+              : 'text-gray-600 hover:bg-gray-100'
+          ]"
+        >
+          ⭐ Avis
+        </button>
       </div>
 
-      <!-- ========================================
-           PAGE HOME (Génération et Quiz)
-           ======================================== -->
+      <!-- PAGE HOME -->
       <div v-if="currentPage === 'home'">
-        <!-- Étape 1 : Saisie du cours -->
         <CourseInput
           v-if="currentStep === 'input'"
           :loading="loading"
@@ -262,14 +250,12 @@ const handleRestart = () => {
           @generate-from-pdf="handleGenerateFromPdf"
         />
 
-        <!-- Étape 2 : Quiz -->
         <QuizDisplay
           v-if="currentStep === 'quiz'"
           :questions="questions"
           @submit="handleSubmitQuiz"
         />
 
-        <!-- Étape 3 : Résultats -->
         <ScoreDisplay
           v-if="currentStep === 'score'"
           :score="score"
@@ -280,25 +266,23 @@ const handleRestart = () => {
         />
       </div>
 
-      <!-- ========================================
-           PAGE HISTORIQUE
-           ======================================== -->
+      <!-- PAGE HISTORIQUE -->
       <HistoryPage
         v-if="currentPage === 'history'"
         @replay-quiz="handleReplayQuiz"
       />
 
+      <!-- PAGE AVIS -->
+      <ReviewsPage v-if="currentPage === 'reviews'" />
+
     </div>
 
-    <!-- ========================================
-         FOOTER
-         ======================================== -->
+    <!-- FOOTER -->
     <AppFooter />
   </div>
 </template>
 
 <style>
-/* Import de Tailwind CSS */
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
