@@ -34,7 +34,7 @@ Ce projet est à la fois pédagogique et ludique, et vise à faciliter la révis
 ---
 
 ## 🧩 Architecture du projet
-
+```
 qcm-generator/
 │
 ├── backend/                    # Spring Boot API
@@ -66,26 +66,25 @@ qcm-generator/
 │   └── tailwind.config.js
 │
 └── README.md
-
+```
 ## 🖥️ Technologies utilisées
 
-🎨 Frontend
-	•	Vue.js 3 (Composition API)
-	•	TailwindCSS
-	•	Axios
-	•	localStorage
-	•	Hébergé sur Vercel
+### 🎨 Frontend
+• Vue.js 3 (Composition API)  
+• TailwindCSS  
+• Axios  
+• localStorage  
+• Hébergé sur Vercel  
 
-🔧 Backend
-	•	Java 17
-	•	Spring Boot
-	•	Spring Data JPA
-	•	REST API
-	•	OpenAI API (GPT-4o-mini)
-	•	Apache PDFBox (extraction PDF)
-	•	PostgreSQL
-	•	Hébergé sur Render
-
+### 🔧 Backend
+• Java 17  
+• Spring Boot  
+• Spring Data JPA  
+• REST API  
+• OpenAI API (GPT-4o-mini)  
+• Apache PDFBox  
+• PostgreSQL  
+• Hébergé sur Render 
 ---
 
 ## 🛠️ Installation & Exécution
