@@ -1,27 +1,35 @@
-# 🧠 Générateur de QCM à partir d’un cours
+# 🧠  QCM Generator – Application Web de Génération Automatique de QCM
 
-## 🎯 Objectif du projet
-Ce projet a pour but de créer une **application web** capable de **générer automatiquement des QCM (Questions à Choix Multiples)** à partir d’un texte de cours fourni par l’utilisateur.
-
-L’application permet à l’utilisateur de :
-1. Coller ou importer un texte de cours 📚  
-2. Générer automatiquement plusieurs questions à choix multiples ✍️  
-3. Répondre aux questions dans l’interface web ✅  
-4. Obtenir son **score final** ou afficher la **bonne réponse après chaque question**  
+QCM Generator est une application complète permettant de transformer un texte de cours ou un fichier PDF en un quiz interactif généré par IA.
+L’objectif est d’aider les étudiants à réviser plus efficacement grâce à des questions pertinentes, corrigées automatiquement, et sauvegardées dans un historique.
 
 Ce projet est à la fois **pédagogique et ludique**, et vise à faciliter la révision et l’apprentissage.
 
 ---
 
-## ⚙️ Fonctionnalités (MVP)
-**MVP (Minimum Viable Product)** — version minimale mais fonctionnelle du projet :
+## 🚀 Fonctionnalités principales
 
-1. L’utilisateur colle un texte de cours dans un champ.
-2. Le backend (Java) découpe le texte et génère **3 questions aléatoires**.
-3. Chaque question a **4 propositions**, dont une correcte.
-4. L’utilisateur choisit ses réponses.
-5. Le site affiche le **score final**.
-
+✅ Génération de QCM
+	•	📄 Upload de texte manuel
+	•	📚 Upload de PDF avec extraction automatique (PDFBox)
+	•	🤖 Génération intelligente via OpenAI (GPT-4o-mini)
+	•	✅ 4 choix par question, 1 seule bonne réponse
+	•	🎮 Quiz interactif entièrement jouable dans le navigateur
+	•	🧠 Corrections affichées question par question
+	•	🎯 Message personnalisé selon le score final
+	
+🕘 Historique complet
+	•	💾 Sauvegarde automatique des QCM (localStorage)
+	•	📜 Consultation des 10 derniers QCM
+	•	📊 Statistiques de performance
+	•	🔄 Rejouer un ancien QCM
+	•	🗑️ Suppression d’une entrée de l’historique
+	
+⭐ Avis des utilisateurs
+	•	⭐ Système de notation (1 à 5 étoiles)
+	•	💬 Commentaires utilisateurs
+	•	📈 Statistiques globales (note moyenne, nombre total d’avis)
+	•	🗄️ Stockage PostgreSQL (données partagées entre tous les visiteurs)
 ---
 
 ## 🧩 Architecture du projet
@@ -33,62 +41,63 @@ qcm-generator/
 
 ## 🖥️ Technologies utilisées
 
-| Composant  | Technologie | Description |
-|------------|--------------|--------------|
-| **Frontend** | Vue.js 3 + TailwindCSS | Interface utilisateur moderne et responsive |
-| **Backend** | Java + Spring Boot | API REST qui traite le texte et génère les QCM |
-| **Communication** | Axios (HTTP + JSON) | Envoi du texte au backend et réception des questions |
-| **Langage principal** | JavaScript / Java | Pour le développement complet du projet |
+🎨 Frontend
+	•	Vue.js 3 (Composition API)
+	•	TailwindCSS
+	•	Axios
+	•	localStorage
+	•	Hébergé sur Vercel
+
+🔧 Backend
+	•	Java 17
+	•	Spring Boot
+	•	Spring Data JPA
+	•	REST API
+	•	OpenAI API (GPT-4o-mini)
+	•	Apache PDFBox (extraction PDF)
+	•	PostgreSQL
+	•	Hébergé sur Render
 
 ---
 
-## 🚀 Installation et mise en route
+## 🛠️ Installation & Exécution
 
-1️⃣ Cloner le projet
-```bash
-  git clone https://github.com/<Oussou-3RV>/qcm-generator.git
-  cd qcm-generator
-2️⃣ Créer les dossiers
-  mkdir backend frontend
-3️⃣ Backend (Spring Boot)
+📌 Backend (Spring Boot)
+	1.	Cloner le projet
+		git clone https://github.com/<TON-REPO>
+		cd Backend
+	2.	Configurer les variables d’environnement :
+		DATABASE_URL=jdbc:postgresql://dpg-xxx
+		OPENAI_API_KEY=sk-xxxxx
+	3.	Lancer le serveur :
+		mvn spring-boot:run
 
-Dans le dossier backend, tu mettras le code Java suivant :
-	•	QcmGeneratorApplication.java
-	•	QcmController.java
-	•	QcmService.java
-	•	Question.java
+🎨 Frontend (Vue.js)
+	1.	Aller dans le dossier frontend :
+		cd Frontend
+	2.	Installer les dépendances :
+		npm install
+	3.	Configurer les fichiers .env :
+		VITE_API_URL=http://localhost:8080
+	4.	Lancer le serveur local :
+		npm run dev
 
-Le backend écoute sur http://localhost:8080.
+🌍 Déploiement
+	•	Frontend déployé sur Vercel
+	•	Backend & base de données déployés sur Render
+	•	Communication sécurisée via API REST
 
-4️⃣ Frontend (Vue.js)
+🎯 Objectif du projet
 
-Dans le dossier frontend :
-  npm create vue@latest
-  npm install axios tailwindcss
-  npx tailwindcss init -p
-Puis copie le contenu de App.vue fourni par le projet pour :
-	•	Coller ton texte
-	•	Générer les QCM
-	•	Répondre et voir ton score
-
-Le frontend écoute sur http://localhost:5173.
-
-🔮 Prochaines étapes
-
-Étape                 |           Description
-1. Base de données         Sauvegarder les QCM et les résultats des utilisateurs
-2. IA / NLP                Utiliser un modèle IA (OpenAI, HuggingFace, etc.) pour générer des questions plus intelligentes
-3. Interface avancée       Améliorer le design et ajouter un mode “révision” ou “statistiques”
-4. Authentification        Permettre à chaque utilisateur d’avoir son espace personnel
+Ce projet est conçu pour :
+	•	aider les étudiants à réviser efficacement
+	•	permettre la création automatique de QCM à partir de cours réels
+	•	offrir un outil moderne, rapide et agréable à utiliser
+	•	servir d’excellent portfolio full-stack
 
 👨‍💻 Auteurs & Collaboration
 
 Projet initié par [Oussou-3RV]
-
-Conçu pour expérimenter :
-	•	Le développement frontend avec Vue.js
-	•	Le développement backend avec Spring Boot
-	•	Les bases du traitement automatique du langage (NLP)
 
 
 
