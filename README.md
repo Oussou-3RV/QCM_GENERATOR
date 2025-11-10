@@ -109,21 +109,21 @@ qcm-generator/
 	4.	Lancer le serveur local :
 		npm run dev
 ```
-🌍 Déploiement
+### 🌍 Déploiement
 
-• Frontend déployé sur Vercel
-• Backend + base de données déployés sur Render
-• Communication sécurisée via API REST
+- Frontend déployé sur Vercel
+- Backend + base de données déployés sur Render
+- Communication sécurisée via API REST
 
-🎯 Objectif du projet
+### 🎯 Objectif du projet
 
 Ce projet est conçu pour :
-• aider les étudiants à réviser efficacement
-• créer automatiquement des QCM à partir de cours réels
-• offrir un outil moderne et agréable
-• servir de portfolio full-stack professionnel
+- aider les étudiants à réviser efficacement
+- créer automatiquement des QCM à partir de cours réels
+- offrir un outil moderne et agréable
+- servir de portfolio full-stack professionnel
 
-👨‍💻 Auteurs & Collaboration
+### 👨‍💻 Auteurs & Collaboration
 
 Projet initié par [Oussou-3RV]
 
