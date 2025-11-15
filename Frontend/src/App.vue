@@ -12,6 +12,7 @@ import QuizDisplay from './components/QuizDisplay.vue'
 import ScoreDisplay from './components/ScoreDisplay.vue'
 import HistoryPage from './components/HistoryPage.vue'
 import ReviewsPage from './components/ReviewsPage.vue'
+import Button from './components/Button.vue'
 
 // ========================================
 // IMPORT DU SERVICE HISTORIQUE
@@ -205,39 +206,28 @@ const handleRestart = () => {
 
       <!-- MENU DE NAVIGATION -->
       <div class="flex gap-2 mb-8 bg-white rounded-xl shadow-md p-2">
-        <button
+       
+        <Button 
+          label="Accueil"
+          icon="🏠"
           @click="navigateTo('home')"
-          :class="[
-            'flex-1 py-3 px-4 rounded-lg font-semibold transition-all text-sm md:text-base',
-            currentPage === 'home'
-              ? 'bg-indigo-600 text-white shadow-md'
-              : 'text-gray-600 hover:bg-gray-100'
-          ]"
-        >
-          🏠 Accueil
-        </button>
-        <button
+          :active = "currentPage === 'home'"
+        />
+
+        <Button 
+          label="Historique"
+          icon="📚"
           @click="navigateTo('history')"
-          :class="[
-            'flex-1 py-3 px-4 rounded-lg font-semibold transition-all text-sm md:text-base',
-            currentPage === 'history'
-              ? 'bg-indigo-600 text-white shadow-md'
-              : 'text-gray-600 hover:bg-gray-100'
-          ]"
-        >
-          📚 Historique
-        </button>
-        <button
+          :active = "currentPage === 'history'"
+        />
+       
+        <Button 
+          label="Avis"
+          icon="⭐"
           @click="navigateTo('reviews')"
-          :class="[
-            'flex-1 py-3 px-4 rounded-lg font-semibold transition-all text-sm md:text-base',
-            currentPage === 'reviews'
-              ? 'bg-indigo-600 text-white shadow-md'
-              : 'text-gray-600 hover:bg-gray-100'
-          ]"
-        >
-          ⭐ Avis
-        </button>
+          :active = "currentPage === 'reviews' "
+        />
+  
       </div>
 
       <!-- PAGE HOME -->
@@ -282,8 +272,3 @@ const handleRestart = () => {
   </div>
 </template>
 
-<style>
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
-</style>
