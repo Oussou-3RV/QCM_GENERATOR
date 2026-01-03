@@ -6,6 +6,9 @@ import com.qcm.generator.entity.Review;
 import com.qcm.generator.service.ReviewService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +17,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+// classe n'est pas chargé temporairement
+@ConditionalOnProperty(
+        name = "feature.reviews.enabled",
+        havingValue = "true"
+)
 @RestController
 @RequestMapping("/api/reviews")
 @CrossOrigin(origins = "http://localhost:5173") // Pour le dev local

@@ -1,12 +1,16 @@
 package com.qcm.generator.repository;
 
 import com.qcm.generator.entity.Review;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
+// classe pas chargé temporairement
+@ConditionalOnProperty(
+        name = "feature.reviews.enabled",
+        havingValue = "true")
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 

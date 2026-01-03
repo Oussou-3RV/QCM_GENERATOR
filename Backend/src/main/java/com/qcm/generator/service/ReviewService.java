@@ -5,10 +5,15 @@ import com.qcm.generator.dto.ReviewStatsResponse;
 import com.qcm.generator.entity.Review;
 import com.qcm.generator.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
+// classe pas chargé temporairement
+@ConditionalOnProperty(
+        name = "feature.reviews.enabled",
+        havingValue = "true"
+)
 @Service
 public class ReviewService {
 

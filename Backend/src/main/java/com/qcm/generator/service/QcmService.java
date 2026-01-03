@@ -84,8 +84,7 @@ public class QcmService {
             System.err.println("Message : " + e.getMessage());
             e.printStackTrace();
 
-            // ❌ NE PAS utiliser le fallback( ancienne methode qui générait les qcm)
-            // À la place, lancer une exception avec un message clair
+            // Lancer une exception avec un message clair
             throw new RuntimeException("L'intelligence artificielle est temporairement indisponible pour générer les questions. Veuillez réessayer plus tard ou contacter le propriétaire du site.");
         }
     }
