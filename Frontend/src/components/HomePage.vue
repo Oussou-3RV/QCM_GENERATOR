@@ -7,8 +7,8 @@
       <section class="relative py-20 lg:py-32 overflow-hidden">
         <!-- Background effects -->
         <div class="absolute inset-0 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 opacity-60"></div>
-        <div class="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-indigo-200/30 to-purple-200/30 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-blue-200/30 to-cyan-200/30 rounded-full blur-3xl"></div>
+        <div class="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-indigo-200/30 to-purple-200/30 rounded-full blur-1xl"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-blue-200/30 to-cyan-200/30 rounded-full blur-1xl"></div>
         
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="grid lg:grid-cols-2 gap-12 items-center">
@@ -17,9 +17,6 @@
             <div class="text-center lg:text-left">
               <!-- Badge -->
               <div class="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 px-4 py-2 rounded-full text-sm font-semibold mb-6">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                </svg>
                 Intelligence Artificielle GPT-4
               </div>
   
@@ -38,7 +35,7 @@
               <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <button 
                   @click="$emit('navigate', 'generator')"
-                  class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all"
+                  class="bg-green-500 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all"
                 >
                   Essayer gratuitement
                 </button>
@@ -61,7 +58,7 @@
                   <div class="text-sm text-gray-600">Satisfaction</div>
                 </div>
                 <div>
-                  <div class="text-3xl font-bold text-pink-600">5★</div>
+                  <div class="text-3xl font-bold text-yellow-500">5★</div>
                   <div class="text-sm text-gray-600">Note moyenne</div>
                 </div>
               </div>
@@ -74,9 +71,7 @@
                 <div class="space-y-4">
                   <div class="flex items-center gap-3 pb-4 border-b border-gray-200">
                     <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-lg flex items-center justify-center">
-                      <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                      </svg>
+                        <i class="fa-solid fa-hexagon-nodes fa-xl" style="color: #ffffff;"></i>
                     </div>
                     <div>
                       <div class="font-semibold text-gray-900">Aperçu d'un QCM</div>
@@ -108,14 +103,6 @@
                     </div>
                   </div>
                 </div>
-              </div>
-              
-              <!-- Badges flottants -->
-              <div class="absolute -top-4 -right-4 bg-white rounded-xl shadow-lg px-4 py-2 flex items-center gap-2 animate-bounce">
-                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                </svg>
-                <span class="font-semibold text-gray-700">IA Avancée</span>
               </div>
             </div>
           </div>

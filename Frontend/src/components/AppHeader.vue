@@ -12,7 +12,7 @@
             </div>
             
             <!-- Nom du site -->
-            <h1 class="text-2xl font-bold bg-gradient-to-r from-indigo-700 to-purple-600 bg-clip-text text-transparent">
+            <h1 class="text-2xl font-bold bg-indigo-700 bg-clip-text text-transparent">
                 QCM Generator
             </h1>
           </div>
@@ -20,11 +20,9 @@
           <!-- Navigation principale (desktop) -->
           <nav class="hidden md:flex items-center gap-1">
             <a 
-              v-for="item in menuItems" 
-              :key="item.id"
+              v-for="item in menuItems" :key="item.id"
               @click="$emit('navigate', item.id)"
-              :class="[
-                'px-4 py-2 rounded-lg font-medium text-sm transition-all cursor-pointer',
+              :class="['px-4 py-2 rounded-lg font-medium text-sm transition-all cursor-pointer',
                 currentPage === item.id 
                   ? 'bg-indigo-50 text-indigo-700' 
                   : 'text-gray-700 hover:bg-gray-50 hover:text-indigo-600'
@@ -38,7 +36,7 @@
           <div class="hidden md:flex items-center gap-3">
             <button 
               @click="$emit('navigate', 'generator')"
-              class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-2.5 rounded-lg font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all"
+              class="bg-indigo-700 text-white px-6 py-2.5 rounded-lg font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all"
             >
               Créer un QCM
             </button>
@@ -81,9 +79,10 @@
             >
               {{ item.label }}
             </a>
+
             <button 
               @click="handleMobileNavigation('generator')"
-              class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-4 py-3 rounded-lg font-semibold shadow-md"
+              class="w-full bg-indigo-700 text-white px-4 py-3 rounded-lg font-semibold shadow-md"
             >
               Créer un QCM
             </button>
@@ -116,9 +115,8 @@
   // Menu items
   const menuItems = [
     { id: 'home', label: 'Accueil' },
-    { id: 'features', label: 'Fonctionnalités' },
-    { id: 'pricing', label: 'Tarifs' },
     { id: 'about', label: 'À propos' },
+    { id: 'pricing', label: 'Tarifs' },
     { id: 'contact', label: 'Contact' }
   ]
   

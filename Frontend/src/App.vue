@@ -53,10 +53,10 @@
           />
   
           <!-- Page Fonctionnalités -->
-          <FeaturesPage 
+          <!-- <FeaturesPage 
             v-if="currentPage === 'features'"
             @navigate="navigateTo"
-          />
+          /> -->
   
           <!-- Page Tarifs -->
           <PricingPage 
