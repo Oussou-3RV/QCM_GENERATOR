@@ -11,8 +11,8 @@
           <div class="grid grid-cols-1 md:flex justify-between gap-8 ">
             
             <!-- Colonne 1 : À propos -->
-            <div > 
-              <h3 class="font-bold text-gray-900 mb-3 flex items-center gap-2">
+            <div> 
+              <h3 class="font-bold text-gray-900 mb-3 flex items-center gap-2 cursor-pointer" @click="scrollToSection()">
                 <div class="w-8 h-8 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
                     <i class="fa-solid fa-hexagon-nodes fa-xl" style="color: #ffffff;"></i>
                 </div>
@@ -55,7 +55,10 @@
   </template>
   
   <script setup>
-
+const scrollToSection =() =>{
+    document.getElementById('homePage')
+    .scrollIntoView({behavior:'smooth'})
+}
   </script>
   
   <style scoped>

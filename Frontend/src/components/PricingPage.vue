@@ -19,7 +19,7 @@
           <div class="bg-white rounded-2xl shadow-lg border-2 border-gray-200 p-8 hover:shadow-xl transition-shadow">
             <div class="text-center mb-6">
               <h3 class="text-2xl font-bold text-gray-900 mb-2">Gratuit</h3>
-              <div class="text-5xl font-bold text-gray-900 mb-2">0€</div>
+              <div class="text-5xl font-bold text-gray-900 mb-2">0$</div>
               <p class="text-gray-600">Pour toujours</p>
             </div>
   
@@ -134,49 +134,14 @@
         </div>
   
         <!-- FAQ Section -->
-        <div class="mt-20 max-w-3xl mx-auto">
-          <h2 class="text-3xl font-bold text-gray-900 text-center mb-12">
-            Questions fréquentes
-          </h2>
-          
-          <div class="space-y-6">
-            <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
-              <h3 class="text-lg font-semibold text-gray-900 mb-2">
-                💳 Quels moyens de paiement acceptez-vous ?
-              </h3>
-              <p class="text-gray-600">
-                Nous acceptons toutes les cartes bancaires (Visa, Mastercard, American Express) 
-                via notre partenaire sécurisé Stripe.
-              </p>
-            </div>
-  
-            <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
-              <h3 class="text-lg font-semibold text-gray-900 mb-2">
-                🔄 Puis-je changer d'abonnement ?
-              </h3>
-              <p class="text-gray-600">
-                Oui ! Vous pouvez passer du plan Gratuit au plan Pro à tout moment, 
-                ou annuler votre abonnement Pro sans frais.
-              </p>
-            </div>
-  
-            <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
-              <h3 class="text-lg font-semibold text-gray-900 mb-2">
-                🎓 Y a-t-il des réductions pour les étudiants ?
-              </h3>
-              <p class="text-gray-600">
-                Nous proposons une réduction de 50% pour les étudiants. 
-                Contactez-nous avec votre carte étudiante pour en bénéficier.
-              </p>
-            </div>
-          </div>
-        </div>
+        <Faq/>
   
       </div>
     </div>
   </template>
   
   <script setup>
+    import Faq from './Faq.vue';
   // Emits
   defineEmits(['navigate'])
   </script>

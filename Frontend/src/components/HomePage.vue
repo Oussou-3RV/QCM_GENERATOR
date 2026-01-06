@@ -1,10 +1,10 @@
 <template>
-    <div class="overflow-hidden">
+    <div class="overflow-hidden" id="homePage">
       
       <!-- ====================================== -->
       <!-- HERO SECTION -->
       <!-- ====================================== -->
-      <section class="relative py-20 lg:py-32 overflow-hidden">
+      <section class="relative py-20 lg:py-32 overflow-hidden" >
         <!-- Background effects -->
         <div class="absolute inset-0 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 opacity-60"></div>
         <div class="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-indigo-200/30 to-purple-200/30 rounded-full blur-1xl"></div>
@@ -187,57 +187,38 @@
   
           <div class="grid md:grid-cols-3 gap-8">
             <!-- Étape 1 -->
-            <div class="relative">
-              <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow">
-                <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center font-bold text-xl mb-6">
-                  1
-                </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-3">Importez votre contenu</h3>
-                <p class="text-gray-600">
-                  Téléchargez un PDF ou collez votre texte de cours directement dans l'interface.
-                </p>
-              </div>
-              <!-- Flèche (desktop) -->
-              <div class="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2">
-                <svg class="w-8 h-8 text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
-              </div>
-            </div>
+            <Step 
+                numero="1"
+                titre="Importez votre contenu"
+                description="Téléchargez un PDF ou collez votre texte de cours directement dans linterface."
+                badgeClass="bg-indigo-100 text-indigo-600"
+                :flecheNext=true
+             />
   
             <!-- Étape 2 -->
-            <div class="relative">
-              <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow">
-                <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center font-bold text-xl mb-6">
-                  2
-                </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-3">L'IA génère les questions</h3>
-                <p class="text-gray-600">
-                  Notre intelligence artificielle analyse votre contenu et crée des questions pertinentes.
-                </p>
-              </div>
-              <!-- Flèche (desktop) -->
-              <div class="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2">
-                <svg class="w-8 h-8 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
-              </div>
-            </div>
-  
+            <Step 
+                numero="2"
+                titre="L'IA génère les questions"
+                description="Notre intelligence artificielle analyse votre contenu et crée des questions pertinentes."
+                badgeClass="bg-purple-100 text-purple-600"
+                :flecheNext=true
+             />
+            
             <!-- Étape 3 -->
-            <div class="relative">
-              <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow">
-                <div class="w-12 h-12 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center font-bold text-xl mb-6">
-                  3
-                </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-3">Passez et révisez</h3>
-                <p class="text-gray-600">
-                  Répondez aux questions et obtenez vos résultats avec des corrections détaillées.
-                </p>
-              </div>
-            </div>
+            <Step 
+                numero="3"
+                titre="Passez et révisez"
+                description="Répondez aux questions et obtenez vos résultats avec des corrections détaillées."
+                badgeClass="bg-pink-100 text-pink-600"
+                :flecheNext=false
+             />
+           
           </div>
         </div>
+      </section>
+
+      <section class="tarif">
+        <PricingPage/>
       </section>
   
       <!-- ====================================== -->
@@ -264,6 +245,8 @@
   </template>
   
   <script setup>
+    import PricingPage from './PricingPage.vue';
+    import Step from './Step.vue';
   // Emits
   defineEmits(['navigate'])
   
