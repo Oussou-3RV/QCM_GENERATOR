@@ -2,8 +2,8 @@ package com.qcm.generator.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.qcm.generator.model.Question;
-import com.qcm.generator.model.QcmResponse;
+import com.qcm.generator.dto.Question;
+import com.qcm.generator.dto.QcmResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

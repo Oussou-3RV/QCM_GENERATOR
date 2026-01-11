@@ -1,7 +1,7 @@
 package com.qcm.generator.controller;
 
-import com.qcm.generator.model.CourseRequest;
-import com.qcm.generator.model.QcmResponse;
+import com.qcm.generator.dto.CourseRequest;
+import com.qcm.generator.dto.QcmResponse;
 import com.qcm.generator.service.PdfService;
 import com.qcm.generator.service.QcmService;
 import org.springframework.beans.factory.annotation.Autowired;

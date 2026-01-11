@@ -1,9 +1,7 @@
 package com.qcm.generator.controller;
 
-import com.qcm.generator.model.TestRequest;
-import com.qcm.generator.model.TestResponse;
-import com.qcm.generator.model.TestResponse;
-import org.springframework.beans.factory.annotation.*;
+import com.qcm.generator.dto.TestRequest;
+import com.qcm.generator.dto.TestResponse;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

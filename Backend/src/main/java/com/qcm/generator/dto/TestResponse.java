@@ -1,4 +1,4 @@
-package com.qcm.generator.model;
+package com.qcm.generator.dto;
 
 public class TestResponse {
     private String message;
