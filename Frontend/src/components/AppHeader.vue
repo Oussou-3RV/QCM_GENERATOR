@@ -30,16 +30,14 @@
         </nav>
 
         <!-- CTA Button (Call To Action) -->
-        <!-- <div class="hidden md:flex items-center gap-3">
-            <button 
+        <div class="hidden md:flex items-center gap-3">
+          <!-- <button 
               @click="$emit('navigate', 'generator')"
               class="bg-indigo-700 text-white px-6 py-2.5 rounded-lg font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all"
             >
               Créer un QCM
-            </button>
-          </div> -->
+            </button> -->
 
-        <div class="hidden md:flex items-center gap-3">
           <!-- Si connecté -->
           <template v-if="isLoggedIn">
             <button @click="handleLogout" class="text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-100">
