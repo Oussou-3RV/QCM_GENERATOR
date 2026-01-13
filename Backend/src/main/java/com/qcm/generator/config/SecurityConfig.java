@@ -15,7 +15,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         // Routes publiques
-                        .requestMatchers("/api/test").permitAll()  // juste pour les tests
+                        .requestMatchers("/api/test").permitAll()  // juste pour le test
                         .requestMatchers("/api/auth/**").permitAll()
                         // Routes protégées
                         .requestMatchers("/api/qcm/**").authenticated()
